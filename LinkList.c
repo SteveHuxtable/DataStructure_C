@@ -132,14 +132,47 @@ int deleteV_link(LinkList llist, DataType x){
 
 
 // main function to test the above functions
-int main(){
+int main(int argc, char ** argv){
 
+	//show the input 
+	printf("argc = %d \n", argc);
+	printf("argc[0] = %s \n", argv[0]);
+	printf("argc[1] = %s \n", argv[1]);
+	printf("argc[2] = %s \n", argv[2]);
+	getchar();
+	
+	// initialize the linklist
     LinkList llist = createNullList_link();
 
     if(isNullList_link(llist))
 		printf(" the llist is empty !! \n");
 	else
 		printf(" th llist is not empty !! \n");
+
+	// input the date into the linklist
+    if(argc < 2)
+		printf(" You should input the date after the './LinkList' !!! \n");
+    else{
+		PNode p, q;
+		p = llist;
+	    for(int i = 1; i < argc; p = p -> link, i++){
+		   PNode q =(PNode)malloc(sizeof(struct Node));  // create the space for q
+		   if(q == NULL){
+		       printf("Out of space \n");
+               return 0;
+		   }
+		   q -> info = atoi(argv[i]);
+		   p -> link = q;              // give q's address to p
+           printf(" You have input %d into the linklist !! \n", atoi(argv[i])); 
+		   getchar();
+		} 
+	}	
+
+    if(isNullList_link(llist))
+		printf(" the llist is empty !! \n");
+	else
+		printf(" th llist is not empty !! \n");
+
 
     PNode site = locate_link(llist, 10);
 
