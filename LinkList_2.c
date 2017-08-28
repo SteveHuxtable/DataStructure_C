@@ -116,6 +116,31 @@ void Insert_List2(LinkList L){
     p->next = s;
 }
 
+// delete the 1st element with the value of val
+void del_List(LinkList L){
+    int i, n, val;
+	
+	LNode *p, *prep;
+	p = L -> next;
+	prep = L;
+	
+	printf("Please input the value that you want to delete : ");
+	scanf("%d", &val);
+
+	while(p != NULL && p -> data != val){
+	    p = p -> next;
+		prep = prep -> next;
+	}
+
+	if(p == NULL)
+		printf("Fail to find element %d \n", val);
+    else{
+	    printf("Find the element %d successfully !  and deleting ..... \n", val);
+        prep -> next = p -> next; // or prep -> next = p -> next -> next;
+		free(p);
+	}
+}
+
 int main(){
 	LinkList llist;
 	llist = Init_LNode();
@@ -125,6 +150,11 @@ int main(){
 
     //Insert_List1(llist);
     Insert_List2(llist);
+
+	Show_Linst(llist);
+
+	// delete element 100
+	del_List(llist);
 
 	Show_Linst(llist);
 
