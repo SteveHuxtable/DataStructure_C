@@ -1,139 +1,127 @@
-/*
- * Joseph problem
- *
- * Date = 2017.8.27
- */
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-// use linklist structure to solve the problem
+// the structure of a Joseph_Node
 
-#define MAXNUM 14
+#define Datatype int
 
-// define the struct to be used
+typedef struct Joseph_Node{
+    int Per_Num;
+   	struct Joseph_Node *next;
+}Joseph_Node, *Joseph_PNode;
 
-struct Node;
+typedef struct Joseph_Node *Joseph_llist;
 
-typedef struct Node * PNode;
+// create a Joseph_llist - should be a circle list
+Joseph_llist crea_Jollist();
 
-struct Node{
-    int number;
-	int killed;
-    PNode next; 
-};
+// initialize the Joseph_llist;
+void init_Jollist(Joseph_llist llist, int num);
 
-// initialize the PNode by using the MAXNUM
+// to tranverse the Joseph_llist
+void tranv_Jollist(Joseph_llist llist, int num);
 
-int InitJoseph(PNode Jo_llist, int guest_NUM){
-    
-	PNode first_Node = (PNode)malloc(sizeof(struct Node));
-	first_Node ->number = 1;
-	first_Node -> killed = 0;
-    printf(" The 1 is into the list \n");
-
-    PNode tmp_Node;
-	PNode new_Node;
-    
-	int i;
-
-	for(i = 0; i < guest_NUM; i ++){
-
-		new_Node = (PNode)malloc(sizeof(struct Node));
-	
-		if(i == 0)
-			first_Node -> next = new_Node;
-
-        new_Node -> number = i + 2;
-		new_Node -> killed = 0;
-		printf(" The %d is into the list \n", i + 2);
-
-		new_Node = new_Node -> next;
-
-		if(i == guest_NUM -1)
-			first_Node = new_Node;
-	}	
-
-	if(i == guest_NUM){
-
-		Jo_llist = first_Node;
-        printf(" Create the llist successfully !! \n");	
-		return 0;
-	}
-	else{
-	    printf(" Unable to create the llist !! \n");
-		return 1;
-	}
-}
-
-// tranverse the PNode
-int Joseph_trans(PNode Jo_llist){
-    PNode p;
-	p = Jo_llist;
-	do{
-        printf(" The number %d is in the linklist !! \n", p -> number);	
-		p = p -> next;
-	}while(p -> number != 1);
-	return 0;
-}
-
-// Output the sequence of number until only 1 left
-int Joseph_run(PNode Jo_llist, int guest_Num, int count_Num){
-	
-	PNode knife = Jo_llist;
-
-	printf(" is this one all right? \n");
-
-	while(guest_Num != 1){
-	
-	    // kill people one by one
-		int count = 0;
-
-	    while(count < count_Num){
-
-		    if(count == count_Num - 1){
-				if(knife -> killed == 0){
-			        knife -> killed = 1;
-			        printf(" The No.%d guest is killed \n", knife -> number);
-				}	
-			}
-			
-			printf("run for %d time", count);
-
-			knife = knife -> next;
-            
-			if(knife -> killed != 1)
-			    count++;
-		}	
-
-		guest_Num--;
-	}
-
-	return 0;
-}
-
+// kill people one by one, and then output the array that be killed
+void kill_Onebyone(Joseph_llist llist, int kill_Num);
 
 // main function
-
 int main(){
+	int num, kill_Num;
+    printf("Please input the number of people : ");
+	scanf("%d", &num);
 
-    int guest_Num, count_Num;
+	printf("Please input the number of the count that kill people : ");
+	scanf("%d", &kill_Num);
 
-	scanf("%d", &guest_Num);
-
-	scanf("%d", &count_Num);
-
-    PNode Jo_llist;
-
-	InitJoseph(Jo_llist, guest_Num);
-
-	printf(" is here all right ? \n");
-
-	Joseph_trans(Jo_llist);
-
-    Joseph_run(Jo_llist, guest_Num, count_Num);
-
-	getchar();
+	Joseph_llist llist;
+	llist = crea_Jollist(llist);
+	init_Jollist(llist, num);
+	tranv_Jollist(llist, num);
+    kill_Onebyone(llist, kill_Num);
 
 	return 0;
 }
+
+Joseph_llist crea_Jollist(){
+	Joseph_PNode fir_guy;
+	fir_guy = (Joseph_PNode)malloc(sizeof(Joseph_Node));
+    if(fir_guy == NULL){
+	    printf("Out of space !! \n");
+		exit(-1);
+	}
+	fir_guy -> next = NULL;
+	return fir_guy;
+}
+
+void init_Jollist(Joseph_PNode llist, int num){
+    Joseph_PNode p = llist;
+	Joseph_PNode pre_p;
+    
+    if(p == NULL){
+	    printf("Can not get a valid Joseph_llist !! \n");
+		exit(-1);
+	}	
+    else{
+	    printf("Get a valid Joseph_llist !! \n");
+		printf("Let's initialize it !! \n");
+	}
+
+	int i = 0;
+
+    for(i = 0; i < num; ++i){
+		p -> Per_Num = i + 1;
+	    printf("[Initing...]No.%d is in the Joseph_llist !! \n", p -> Per_Num);
+	    Joseph_PNode pnew = (Joseph_PNode)malloc(sizeof(Joseph_Node));
+		p -> next = pnew;
+		pre_p = p;
+		p = pnew;
+	}
+
+	pre_p -> next = llist;
+	free(p);
+}
+
+void tranv_Jollist(Joseph_llist llist, int num){
+    int i = 0;
+
+	Joseph_PNode p = llist;
+
+	while(i < num){
+	    printf("[TRANV] The No.%d is in the Joseph_llist !! \n", p -> Per_Num);
+
+		p = p -> next;
+
+		++i;
+	}
+
+	p = p -> next;
+
+	//printf("[TRANV] The No.1 element in the array is : %d \n", p -> Per_Num);
+}
+
+// write the true kill_Onebyone functino !!
+void kill_Onebyone(Joseph_PNode llist, int kill_Num){
+    int count;
+	
+	Joseph_PNode knife = llist;
+
+	// the PNode that pre-knife
+	Joseph_PNode pre_knife, free_knife;
+    
+	while(knife -> next != knife){
+        count = 1;
+	    while(count != kill_Num){
+			pre_knife = knife;
+		    knife = knife -> next;
+			++count;
+		}	    
+		// kill someone -delete the PNode
+		printf("[killing...] The No.%d people has been killed !! \n", knife -> Per_Num);
+		free_knife = knife;
+        knife = knife -> next;
+		pre_knife -> next = knife;
+        free(free_knife);
+	}
+}
+
