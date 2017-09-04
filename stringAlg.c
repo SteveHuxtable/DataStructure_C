@@ -73,30 +73,34 @@ void simple_find_substr(char * sub_str, char * main_str){
 }
 
 // the alg to calculate next
-void makeNext(char * sub_str, int * next){
-    int i = 0, k = -1;
+// to understand the KMP algri
+// how to get the lenth of max equivalent prefix and suffix
+void makeNext(const char * sub_str, int * next){
+	int p, max_len;
 	
-	next[0] = -1;
-	
-	while(i < strlen(sub_str)){
+	next[0] = 0;
 
-	    while(k >= 0 && sub_str[i] != sub_str[k])
-			k = next[k];
+	for(p = 1, max_len = 0; p < strlen(sub_str); ++p){
+        while(max_len > 0 && sub_str[p] != sub_str[max_len]){
+		    max_len = next[max_len - 1];
+		}
 
-	    ++i;
-	    ++k;
-	    
-		next[i] = k;	
+        if(sub_str[p] == sub_str[max_len])
+		    ++max_len;
+        
+        next[p] = max_len;		
 	}
 }
 
 
-
-
 // Knuth pattern-match
-void Knuth_pmatch(char * sub_str, char * main_str){
-	char * sub_p = sub_str;
-    char * main_p = main_str;
+void Knuth_pmatch(const char * sub_str, const char * main_str, int *next){
+    int sub_len = strlen(sub_str);
+    int main_len = strlen(main_str);
+
+    makeNext(sub_str, next);
+
+        	
 
 }
 
