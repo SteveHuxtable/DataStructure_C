@@ -35,7 +35,6 @@ PSeqString creat_String(){
 		free(p_str);
 	printf("Out of space !! \n");
 	return NULL;
-
 }
 
 // find the location of str_m in seq_str
