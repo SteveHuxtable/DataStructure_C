@@ -89,18 +89,41 @@ void makeNext(const char * sub_str, int * next){
         
         next[p] = max_len;		
 	}
+
+	int i = 0;
+	while(i < strlen(sub_str)){
+	    printf("the No.%d of next[] is : %d \n", i, next[i]);
+		++i;
+	}
+}
+
+void makeNext_pro(const char * sub_str, int * next){
+    
 }
 
 
 // Knuth pattern-match
-void Knuth_pmatch(const char * sub_str, const char * main_str, int *next){
+void KMP_match(const char * sub_str, const char * main_str, int *next){
     int sub_len = strlen(sub_str);
     int main_len = strlen(main_str);
 
     makeNext(sub_str, next);
 
-        	
+	// begin to match main_str using sub_str
+    int match_len = 0, match_mainloc = 0, match_subloc = 0;   
+	for(; match_mainloc < main_len; ++match_mainloc){
+    // the process that doing the match
+        while(match_subloc > 0 && sub_str[match_subloc] != main_str[match_mainloc]){
+		    match_subloc = next[match_subloc - 1];
+		}
 
+		if(sub_str[match_subloc] == main_str[match_mainloc]){
+		    ++match_subloc;
+		}
+
+		if(match_subloc == sub_len)
+			printf("Pattern occurs with shift : %d \n", (match_mainloc - sub_len + 1));
+	}
 }
 
 int main(){
@@ -123,6 +146,9 @@ int main(){
 
 	// find the location of str_m in seq_str
 	simple_find_substr(str_m, seq_str -> c);
+
+	char * test_next = "abcdabcdaazeyu";
+	makeNext(test_next, next);
 
 	return 0;
 
