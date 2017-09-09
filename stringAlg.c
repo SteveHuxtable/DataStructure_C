@@ -74,6 +74,7 @@ void simple_find_substr(char * sub_str, char * main_str){
 // the alg to calculate next
 // to understand the KMP algri
 // how to get the lenth of max equivalent prefix and suffix
+// improve the alg to get next[]  20170909
 void makeNext(const char * sub_str, int * next){
 	int p, max_len;
 	
@@ -86,8 +87,11 @@ void makeNext(const char * sub_str, int * next){
 
         if(sub_str[p] == sub_str[max_len])
 		    ++max_len;
-        
-        next[p] = max_len;		
+
+		if(sub_str[max_len] == sub_str[p])
+			next[p] = next[max_len];
+		else
+            next[p] = max_len;		
 	}
 
 	int i = 0;
@@ -96,11 +100,6 @@ void makeNext(const char * sub_str, int * next){
 		++i;
 	}
 }
-
-void makeNext_pro(const char * sub_str, int * next){
-    
-}
-
 
 // Knuth pattern-match
 void KMP_match(const char * sub_str, const char * main_str, int *next){
