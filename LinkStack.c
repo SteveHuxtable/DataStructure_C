@@ -22,44 +22,6 @@ struct LinkStack{
 
 typedef struct LinkStack * PLinkStack;
 
-// predefine the functions that will be used
-PLinkStack createEmptyStack_link(void);
-
-int isEmptyStack_link(PLinkStack plstack);
-
-void push_link(PLinkStack plstack, DataType x);
-
-DataType pop_link(PLinkStack plstack);
-
-//DataType top_link(PLinkStack plstack);
-
-// test these functions
-int main(void){
-    PLinkStack plstack = createEmptyStack_link();
-	printf("%p \n", plstack->top);
-
-	if(isEmptyStack_link(plstack)){
-	    printf("empty stack\n");
-	}
-	else{
-	    printf("not empty stack\n");
-	}
-
-	push_link(plstack, 10);
-
-	int popValue;
-	popValue = pop_link(plstack);
-	printf("the pop value is : %d \n", popValue);
-	
-	if(isEmptyStack_link(plstack)){
-	    printf("empty stack\n");
-	}
-	else{
-	    printf("not empty stack\n");
-	}
-
-	return 0;
-}
 
 PLinkStack createEmptyStack_link(void){
     PLinkStack plstack;
@@ -111,4 +73,13 @@ DataType pop_link(PLinkStack plstack){
 	return tmp;
 }
 
+DataType top_link(PLinkStack plstack){
+    if(plstack->top != NULL){
+	    return plstack->top->info;
+	}
 
+	else{
+	    printf("There is no top node ! \n");
+		exit(-1);
+	}
+}
