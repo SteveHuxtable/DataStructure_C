@@ -1,5 +1,5 @@
-#ifndef LINKSTACK_H
-#define LINKSTACK_H
+#ifndef __LINKSTACK_H__
+#define __LINKSTACK_H__
 
 typedef int DataType;
 
@@ -18,10 +18,10 @@ struct LinkStack{
 
 typedef struct LinkStack * PLinkStack;
 
-extern PLinkStack createEmptyStack_link(void);
-extern int isEmptyStack_link(PLinkStack plstack);
-extern void push_link(PLinkStack plstack, DataType x);
-extern DataType pop_link(PLinkStack plstack);
-extern DataType top_link(PLinkStack plstack);
+PLinkStack createEmptyStack_link(void);
+int isEmptyStack_link(PLinkStack plstack);
+void push_link(PLinkStack plstack, DataType x);
+DataType pop_link(PLinkStack plstack);
+DataType top_link(PLinkStack plstack);
 
 #endif
