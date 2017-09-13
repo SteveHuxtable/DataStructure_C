@@ -19,9 +19,13 @@ struct LinkStack{
 typedef struct LinkStack * PLinkStack;
 
 PLinkStack createEmptyStack_link(void);
+
 int isEmptyStack_link(PLinkStack plstack);
+
 void push_link(PLinkStack plstack, DataType x);
+
 DataType pop_link(PLinkStack plstack);
+
 DataType top_link(PLinkStack plstack);
 
 #endif

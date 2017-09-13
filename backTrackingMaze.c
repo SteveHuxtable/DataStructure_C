@@ -1,6 +1,5 @@
 // 20170910 
 #include <stdio.h>
-#include <stdlib.h>
 #include "LinkStack.h"
 
 // the maze using 2-dim array to store

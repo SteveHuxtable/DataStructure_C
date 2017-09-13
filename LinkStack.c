@@ -4,23 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "LinkStack.h"
 
-typedef int DataType;
-
-// basic struct
-struct Node;
-typedef struct Node * PNode;
-struct Node{
-    DataType info;
-    PNode link;	
-};
-
-// top node
-struct LinkStack{
-    PNode top;
-};
-
-typedef struct LinkStack * PLinkStack;
 
 
 PLinkStack createEmptyStack_link(void){
