@@ -1,3 +1,7 @@
 You should use the "head" file to construct a project!
 
 20170913: create a "a.out" file using .h file successfully !
+
+20170914: add code of SeqStack into the library!
+
+20170917: add code of LinkQueue
