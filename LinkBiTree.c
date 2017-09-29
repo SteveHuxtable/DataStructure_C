@@ -37,35 +37,38 @@ int checkLeaf(PBiTreeNode node);
 void delLleaf(PBiTreeNode node);
 void delRleaf(PBiTreeNode node);
 
+// preorder traversal
+DataType * preorderBiTree(PBiTree pbitree);
+
 /*
 // delete the left child of a node in a binary tree
 int delLeft(PBiTree pbitree, PBiTreeNode node);
 // delete the right child of a node in a binary tree
 int defRight(PBiTree pbitree, PBiTreeNode  node);
-// preorder traversal
-DataType * preorderBiTree(PBiTree pbitree);
 // order traversal
 DataType * orderBiTree(PBiTree pbitree);
 // posterior traversal
 DataType * posteriorBitree(PBiTree pbitree);
 // merge two binary trees
 PBiTree mergeBiTree(PBiTree leftBiTree, PBiTree rightBiTree);
-// get the info of a node
-DataType getInfo(PBiTreeNode node);
 */
+// get the info of a node
+void printInfo(PBiTreeNode node);
 
 int main(void){
-    PBiTree pbitree = createBiTree();
-	
-	printf("%d\n", checkEmptyTree(pbitree));
 
+    PBiTree pbitree = createBiTree();
+
+    // simple method to construct a node
 	addLchild(pbitree->rootNode);
 	addRchild(pbitree->rootNode);
+    addLchild(pbitree->rootNode->lchild);
+    addRchild(pbitree->rootNode->lchild);
+    addLchild(pbitree->rootNode->rchild);
+    addRchild(pbitree->rootNode->rchild);
+	addLchild(pbitree->rootNode->lchild->lchild);
 
-	delLleaf(pbitree->rootNode);
-	delRleaf(pbitree->rootNode);
-
-	printf("%d\n", checkEmptyTree(pbitree));
+	// preorder
 
 	return 0; 
 }
@@ -113,7 +116,7 @@ void addLchild(PBiTreeNode node){
 		return;
 	}
 	else{
-	    PBiTreeNode Lchild = (PBiTreeNode)malloc(sizeof(struct RootNode));
+	    PBiTreeNode Lchild = (PBiTreeNode)malloc(sizeof(struct BiTreeNode));
 		DataType tempValue;
 		printf("Please input the value of the left child : ");
 		scanf("%d", &tempValue);
@@ -131,7 +134,7 @@ void addRchild(PBiTreeNode node){
 		return;
 	}
 	else{
-	    PBiTreeNode Rchild = (PBiTreeNode)malloc(sizeof(struct RootNode));
+	    PBiTreeNode Rchild = (PBiTreeNode)malloc(sizeof(struct BiTreeNode));
 		DataType tempValue;
 		printf("Please input the value of the right child : ");
 		scanf("%d", &tempValue);
@@ -183,4 +186,15 @@ void delRleaf(PBiTreeNode node){
 		    printf("The node's right child is not a leaf, can not delete it straightly ! You can use the method that deleting a tree to do this ! \n"); 
 		}
 	}
+}
+
+
+void printInfo(PBiTreeNode node){
+    printf("this node is : %d\n", node->info);    
+}
+
+DataType * preorderBiTree(PBiTree pbitree){
+    if(pbitree == NULL)
+	    return;
+    printInfo();	
 }
