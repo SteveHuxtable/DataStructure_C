@@ -23,10 +23,10 @@ typedef struct RootNode{
 
 // create a BiTree only with a root_node
 PBiTree createBiTree();
-/*
+
 // destroy a BiTree using the recursion method
-int destroyBiTree(PBiTree pbitree);
-*/
+void destroyBiTree(PBiTreeNode node);
+
 // check if the tree is empty
 int checkEmptyTree(PBiTree pbitree);
 
@@ -37,21 +37,21 @@ int checkLeaf(PBiTreeNode node);
 void delLleaf(PBiTreeNode node);
 void delRleaf(PBiTreeNode node);
 
-// preorder traversal
-DataType * preorderBiTree(PBiTree pbitree);
-
+// traversal
+void preorderBiTree(PBiTreeNode node);
+void orderBiTree(PBiTreeNode node);
+void posteriorBitree(PBiTreeNode node);
 /*
 // delete the left child of a node in a binary tree
-int delLeft(PBiTree pbitree, PBiTreeNode node);
+int delLeft(PBiTreeNode node);
 // delete the right child of a node in a binary tree
-int defRight(PBiTree pbitree, PBiTreeNode  node);
-// order traversal
-DataType * orderBiTree(PBiTree pbitree);
-// posterior traversal
-DataType * posteriorBitree(PBiTree pbitree);
+int delRight(PBiTreeNode node);
+8*/
+/*
 // merge two binary trees
 PBiTree mergeBiTree(PBiTree leftBiTree, PBiTree rightBiTree);
 */
+
 // get the info of a node
 void printInfo(PBiTreeNode node);
 
@@ -69,6 +69,21 @@ int main(void){
 	addLchild(pbitree->rootNode->lchild->lchild);
 
 	// preorder
+	puts("preOrder:");
+	preorderBiTree(pbitree->rootNode);
+	puts("");
+
+	puts("Order:");
+	orderBiTree(pbitree->rootNode);
+	puts("");
+
+	puts("posteriorOrder:");
+    posteriorBitree(pbitree->rootNode);
+	puts("");
+
+	// delete the whole tree
+	destroyBiTree(pbitree->rootNode);
+	checkEmptyTree(pbitree);
 
 	return 0; 
 }
@@ -160,8 +175,8 @@ void delLleaf(PBiTreeNode node){
 		    PBiTreeNode tempNode;
 			tempNode = node->lchild;
 			node->lchild = NULL;
+			printf("Delete the node's left child which is a leaf ! \nThe node's info is : %d\n", tempNode->info);
 			free(tempNode);
-			printf("Delete the node's left child which is a leaf ! \n");
 		}
 		else{
 		    printf("The node's left child is not a leaf, can not delete it straightly ! You can use the method that deleting a tree to do this ! \n"); 
@@ -179,8 +194,8 @@ void delRleaf(PBiTreeNode node){
 		    PBiTreeNode tempNode;
 			tempNode = node->rchild;
 			node->rchild = NULL;
+			printf("Delete the node's right child which is a leaf ! \nThe node's info is : %d\n", tempNode->info);
 			free(tempNode);
-			printf("Delete the node's right child which is a leaf ! \n");
 		}
 		else{
 		    printf("The node's right child is not a leaf, can not delete it straightly ! You can use the method that deleting a tree to do this ! \n"); 
@@ -193,8 +208,64 @@ void printInfo(PBiTreeNode node){
     printf("this node is : %d\n", node->info);    
 }
 
-DataType * preorderBiTree(PBiTree pbitree){
-    if(pbitree == NULL)
+void preorderBiTree(PBiTreeNode node){
+    if(node == NULL){
+        return;    
+    } 
+
+	// print the info of the node
+	printf("this node's value is : %d \n", node->info);
+
+	// recursion
+	preorderBiTree(node->lchild);
+    preorderBiTree(node->rchild);
+}
+
+void orderBiTree(PBiTreeNode node){
+    if(node == NULL){
 	    return;
-    printInfo();	
+	}
+
+	orderBiTree(node->lchild);
+
+	printf("this node's value is : %d \n", node->info);
+
+	orderBiTree(node->rchild);
+}
+
+void posteriorBitree(PBiTreeNode node){
+    if(node == NULL){
+	    return;
+	}
+
+	posteriorBitree(node->lchild);
+	posteriorBitree(node->rchild);
+
+    printf("this node's value is : %d \n", node->info);
+}
+
+void destroyBiTree(PBiTreeNode node){
+
+    // recursion base
+	// delete left leaf
+    if((node->lchild->lchild == NULL) && (node->lchild->rchild == NULL)){
+	    delLleaf(node);    
+		return;
+	}	
+
+	// delete right leaf
+	if((node->rchild->lchild == NULL) && (node->rchild->rchild == NULL)){
+	    delRleaf(node);
+		return;
+	}
+
+	// delete the node
+	if((node->lchild == NULL) && (node->rchild == NULL)){
+	    free(node);
+		return;
+	}
+	
+	// recursion !!!
+	destroyBiTree(node->lchild);
+	destroyBiTree(node->rchild);
 }
