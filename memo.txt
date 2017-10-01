@@ -5,3 +5,8 @@ You should use the "head" file to construct a project!
 20170914: add code of SeqStack into the library!
 
 20170917: add code of LinkQueue
+
+20170924: add SeqBinTree.c and LinkBinTree.c
+
+20170925: delete LinkBinTree.c
+
