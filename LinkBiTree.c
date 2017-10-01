@@ -20,7 +20,6 @@ typedef struct RootNode{
 }RootNode, * PBiTree;
 /* PBiTree point to the root_node of the BiTree */
 
-
 // create a BiTree only with a root_node
 PBiTree createBiTree();
 
@@ -41,32 +40,32 @@ void delRleaf(PBiTreeNode node);
 void preorderBiTree(PBiTreeNode node);
 void orderBiTree(PBiTreeNode node);
 void posteriorBitree(PBiTreeNode node);
-/*
-// delete the left child of a node in a binary tree
-int delLeft(PBiTreeNode node);
-// delete the right child of a node in a binary tree
-int delRight(PBiTreeNode node);
-8*/
-/*
+
 // merge two binary trees
 PBiTree mergeBiTree(PBiTree leftBiTree, PBiTree rightBiTree);
-*/
 
 // get the info of a node
 void printInfo(PBiTreeNode node);
 
 int main(void){
 
-    PBiTree pbitree = createBiTree();
+    PBiTree pbitree1 = createBiTree();
 
     // simple method to construct a node
-	addLchild(pbitree->rootNode);
-	addRchild(pbitree->rootNode);
-    addLchild(pbitree->rootNode->lchild);
-    addRchild(pbitree->rootNode->lchild);
-    addLchild(pbitree->rootNode->rchild);
-    addRchild(pbitree->rootNode->rchild);
-	addLchild(pbitree->rootNode->lchild->lchild);
+    addLchild(pbitree1->rootNode);
+    addRchild(pbitree1->rootNode);
+    addLchild(pbitree1->rootNode->lchild);
+    addRchild(pbitree1->rootNode->lchild);
+    addLchild(pbitree1->rootNode->rchild);
+    addRchild(pbitree1->rootNode->rchild);
+    addLchild(pbitree1->rootNode->lchild->lchild);
+    
+    PBiTree pbitree2 = createBiTree();
+    addLchild(pbitree2->rootNode);
+    addRchild(pbitree2->rootNode);
+    addLchild(pbitree2->rootNode->lchild);
+
+    PBiTree pbitree = mergeBiTree(pbitree1, pbitree2);
 
 	// preorder
 	puts("preOrder:");
@@ -83,6 +82,14 @@ int main(void){
 
 	// delete the whole tree
 	destroyBiTree(pbitree->rootNode);
+	checkEmptyTree(pbitree);
+
+	// destroy the RootNode
+        PBiTreeNode tempNode = pbitree->rootNode;
+        pbitree->rootNode = NULL;	
+	free(tempNode);
+
+	// do some check on the node
 	checkEmptyTree(pbitree);
 
 	return 0; 
@@ -120,6 +127,10 @@ PBiTree createBiTree(void){
 }
 
 int checkEmptyTree(PBiTree pbitree){
+    if(pbitree->rootNode == NULL)
+        printf("empty tree \n");
+    else
+	printf("not empty tree\n");
 
    return (pbitree->rootNode == NULL); 
 
@@ -281,4 +292,26 @@ void destroyBiTree(PBiTreeNode node){
 			}
 		}
 	}
+}
+
+
+PBiTree mergeBiTree(PBiTree leftBiTree, PBiTree rightBiTree){
+	PBiTree mergeTree = (PBiTree)malloc(sizeof(struct RootNode));
+	if(mergeTree == NULL){
+	    printf("Out of space !\n");
+	    exit(-1);
+	}
+	else{
+	    PBiTreeNode tempNode = (PBiTreeNode)malloc(sizeof(struct BiTreeNode));
+	    tempNode->lchild = leftBiTree->rootNode;
+	    tempNode->rchild = rightBiTree->rootNode;
+
+	    mergeTree->rootNode = tempNode;
+
+	    printf("Please input info of the root node : ");
+	    scanf("%d", mergeTree->rootNode->info);
+	    printf("The info of the root node is : %d\n", mergeTree->rootNode->info);
+	}
+
+	return mergeTree;
 }
