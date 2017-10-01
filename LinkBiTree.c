@@ -246,26 +246,39 @@ void posteriorBitree(PBiTreeNode node){
 
 void destroyBiTree(PBiTreeNode node){
 
-    // recursion base
-	// delete left leaf
-    if((node->lchild->lchild == NULL) && (node->lchild->rchild == NULL)){
-	    delLleaf(node);    
+	if((node->lchild == NULL) && (node->rchild == NULL)){
+	    printf("This node %d become a leaf node ! Go back ! \n", node->info);
 		return;
+	}
+
+    // recursion base
+	printf("check node : %d \n", node->info);
+
+	// delete left leaf
+    if(node->lchild != NULL){
+		printf("Check the No.%d's lchild\n", node->info);
+		if((node->lchild->lchild == NULL) && (node->lchild->rchild == NULL)){
+			delLleaf(node);    
+		}
+		else{
+		   destroyBiTree(node->lchild); 
+		   if(node->lchild != NULL){
+		       destroyBiTree(node);
+		   }
+		}
 	}	
 
 	// delete right leaf
-	if((node->rchild->lchild == NULL) && (node->rchild->rchild == NULL)){
-	    delRleaf(node);
-		return;
+	if(node->rchild != NULL){
+		printf("Check the No.%d's rchild\n", node->info);
+	    if((node->rchild->lchild == NULL) && (node->rchild->rchild == NULL)){
+		    delRleaf(node);
+		}
+		else{
+		    destroyBiTree(node->rchild);
+			if(node->rchild != NULL){
+			    destroyBiTree(node);
+			}
+		}
 	}
-
-	// delete the node
-	if((node->lchild == NULL) && (node->rchild == NULL)){
-	    free(node);
-		return;
-	}
-	
-	// recursion !!!
-	destroyBiTree(node->lchild);
-	destroyBiTree(node->rchild);
 }
