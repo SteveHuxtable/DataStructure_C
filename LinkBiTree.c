@@ -309,7 +309,7 @@ PBiTree mergeBiTree(PBiTree leftBiTree, PBiTree rightBiTree){
 	    mergeTree->rootNode = tempNode;
 
 	    printf("Please input info of the root node : ");
-	    scanf("%d", mergeTree->rootNode->info);
+	    scanf("%d", &mergeTree->rootNode->info);
 	    printf("The info of the root node is : %d\n", mergeTree->rootNode->info);
 	}
 
